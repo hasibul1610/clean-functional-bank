@@ -13,6 +13,12 @@ function updateValue(fieldId, amount){
     const currentAmout = previousAmount + amount;
     totalTag.innerText = currentAmout;
 }
+function getInnerTextValue(fieldId){
+    const fieldTag = document.getElementById(fieldId);
+    const fieldValueInText = fieldTag.innerText;
+    const value = parseFloat(fieldValueInText);
+    return value;
+}
 function updateBalance(amount,condition){
     const balanceTag = document.getElementById('balance-total');
     const balanceInText = balanceTag.innerText;
@@ -33,8 +39,10 @@ function updateBalance(amount,condition){
 document.getElementById('deposit-button').addEventListener('click', function(){
 
     const amount = getInputValue('deposit-input');
-    updateValue('deposit-total',amount);
-    updateBalance(amount,true);
+    if(amount> 0){
+        updateValue('deposit-total',amount);
+        updateBalance(amount,true);
+    }
     
 })
 
@@ -42,7 +50,10 @@ document.getElementById('deposit-button').addEventListener('click', function(){
 document.getElementById('withdraw-button').addEventListener('click', function(){
 
     const amount = getInputValue('withdraw-input');
-    updateValue('withdraw-total',amount);
-    updateBalance(amount,false);
+    const balance = getInnerTextValue('balance-total');
+    if(amount> 0 && amount <= balance){
+        updateValue('withdraw-total',amount);
+        updateBalance(amount,false);
+    }
     
 })
